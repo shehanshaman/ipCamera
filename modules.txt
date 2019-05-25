@@ -1,4 +1,6 @@
 pip install django
 pip install django_heroku
 
+pip install Flask-Session
+
 ---python manage.py runserver 127.0.0.1:8282 

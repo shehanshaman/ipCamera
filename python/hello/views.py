@@ -37,9 +37,9 @@ def index(request):
         myresult = mycursor.fetchall()
 
         if len(myresult) == 1:
-            row = myresult[0];
+            row = myresult[0]
             request.session['email'] = row[1]
-            return render(request, "index.html",{"greetings":request,"user":row})
+            return render(request, "index.html",{"greetings":request,"user":row,"images":database.getImageData(row[1],mycursor)})
         else:
             return render(request, "login.html",{"greetings":"hello"})
 
@@ -54,7 +54,7 @@ def index(request):
         if len(myresult) == 1:
             row = myresult[0]
             request.session['email'] = row[1]
-            return render(request, "index.html",{"greetings":request,"user":row})
+            return render(request, "index.html",{"greetings":request,"user":row,"images":database.getImageData(row[1],mycursor)})
         else:
             return render(request, "login.html",{"greetings":"hello"})
         
@@ -79,9 +79,11 @@ def read(request):
     for x in onlyfiles:
         faces = recognizer(x)
         # database.insertImage(x,mypath,str(len(faces)),mycursor)
-        for f in faces:
-            
+        if len(faces) > 0:
+            img_id = database.getImageId(x,mycursor)
+            for f in faces:
+                database.insertFace(str(img_id),f,mycursor)
+
         # shutil.move(mypath + "/unread/" + x, mypath + "/read" )
-        # return render(request, "test.html",{"greetings":database.getImageId(x,mycursor)})
     return render(request, "test.html",{"greetings":"TEST"})
 
