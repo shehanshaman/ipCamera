@@ -15,6 +15,12 @@ import os
 import hello.views
 from django.http import HttpResponseRedirect
 
+from opencv_face_recognition.recognize import *
+
+from os import listdir
+from os.path import isfile, join
+import shutil #cut and paste
+
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
@@ -46,7 +52,7 @@ def index(request):
         myresult = mycursor.fetchall()
 
         if len(myresult) == 1:
-            row = myresult[0];
+            row = myresult[0]
             request.session['email'] = row[1]
             return render(request, "index.html",{"greetings":request,"user":row})
         else:
@@ -67,12 +73,15 @@ def test(request):
     return render(request, "test.html",{"greetings":"hello"})
 
 def read(request):
-	
-    proc = subprocess.Popen(["python", "./staticfiles/read.py"], stdout=subprocess.PIPE, shell=True)
-    (out, err) = proc.communicate()
-	
-	
-	# print ("program output:", out)
-    
-    return render(request, "test.html",{"greetings":out.decode('ascii')})
+    mypath = "./opencv_face_recognition/images"
+    onlyfiles = [f for f in listdir(mypath + "/unread") if isfile(join(mypath+"/unread", f))]
+
+    for x in onlyfiles:
+        faces = recognizer(x)
+        # database.insertImage(x,mypath,str(len(faces)),mycursor)
+        for f in faces:
+            
+        # shutil.move(mypath + "/unread/" + x, mypath + "/read" )
+        # return render(request, "test.html",{"greetings":database.getImageId(x,mycursor)})
+    return render(request, "test.html",{"greetings":"TEST"})
 
