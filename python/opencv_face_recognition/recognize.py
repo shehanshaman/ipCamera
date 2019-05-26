@@ -12,7 +12,28 @@ import pickle
 import cv2
 import os
 
+def hasFaces(img_name):
+
+	original_image = cv2.imread('./opencv_face_recognition/images/unread/' + img_name)
+
+	# Convert color image to grayscale for Viola-Jones
+	grayscale_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2GRAY)
+
+	# Load the classifier and create a cascade object for face detection
+	face_cascade = cv2.CascadeClassifier('./opencv_face_recognition/cascade/haarcascade_frontalface_default.xml')
+	detected_faces = face_cascade.detectMultiScale(grayscale_image)
+	
+	if len(detected_faces) > 0:
+		return True
+	else :
+		False
+
+
 def recognizer(img_name):
+	# Motiin 0 | Unknown = 1 | Detected = 2
+
+	if not hasFaces(img_name):
+		return [],0
 
 	path = "./opencv_face_recognition/"
 
@@ -106,8 +127,10 @@ def recognizer(img_name):
 	# show the output image
 	# cv2.imshow("Image", image)
 	# cv2.waitKey(0)
-
-	return name_array
+	if len(name_array) > 0 : 
+		return name_array,2
+	else :
+		return name_array,1
 
 # print(recognizer("hi"))
 

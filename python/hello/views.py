@@ -39,7 +39,7 @@ def index(request):
         if len(myresult) == 1:
             row = myresult[0]
             request.session['email'] = row[1]
-            return render(request, "index.html",{"greetings":request,"user":row,"images":database.getImageData(row[1],mycursor)})
+            return render(request, "index.html",{"greetings":request,"user":row,"images":database.getImageData(row[1],mycursor),"states":database.getStateName(mycursor)})
         else:
             return render(request, "login.html",{"greetings":"hello"})
 
@@ -54,7 +54,7 @@ def index(request):
         if len(myresult) == 1:
             row = myresult[0]
             request.session['email'] = row[1]
-            return render(request, "index.html",{"greetings":request,"user":row,"images":database.getImageData(row[1],mycursor)})
+            return render(request, "index.html",{"greetings":request,"user":row,"images":database.getImageData(row[1],mycursor),"states":database.getStateName(mycursor)})
         else:
             return render(request, "login.html",{"greetings":"hello"})
         
@@ -70,15 +70,15 @@ def logout(request):
 
 def test(request):
     # return HttpResponse('Hello from Python!')
-    return render(request, "test.html",{"greetings":"hello"})
+    return render(request, "test.html",{"greetings":database.getStateName(mycursor)})
 
 def read(request):
     mypath = "./opencv_face_recognition/images"
     onlyfiles = [f for f in listdir(mypath + "/unread") if isfile(join(mypath+"/unread", f))]
 
     for x in onlyfiles:
-        faces = recognizer(x)
-        # database.insertImage(x,mypath,str(len(faces)),mycursor)
+        faces, state = recognizer(x)
+        database.insertImage(x,str(state),mypath,str(len(faces)),mycursor)
         if len(faces) > 0:
             img_id = database.getImageId(x,mycursor)
             for f in faces:

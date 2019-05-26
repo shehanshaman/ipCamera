@@ -24,11 +24,11 @@ class db:
 					)
 		return self.mydb
 
-	def insertImage(self,name,mypath,faces,mycursor):
+	def insertImage(self,name,state,mypath,faces,mycursor):
 		array = name.split(".")[0].split("_")
 		dateTimeStr = array[1] + " " + array[2]
 		appId = "001"
-		query = "INSERT INTO `image_data` (`image_id`, `app_id`, `image_name`, `image_capture`, `image_created`, `image_path`, `faces`) VALUES (NULL, '" + appId + "', '" + name +"', '" + dateTimeStr +"', CURRENT_TIMESTAMP, '"+ mypath +"/read/', " + faces +")"
+		query = "INSERT INTO `image_data` (`image_id`, `app_id`, `image_name`, `image_capture`, `image_created`, `image_path`, `faces`, `img_state`) VALUES (NULL, '" + appId + "', '" + name +"', '" + dateTimeStr +"', CURRENT_TIMESTAMP, '"+ mypath +"/read/', " + faces +", " + state +")"
 		mycursor.execute(query)
 		self.mydb.commit()
 		
@@ -62,3 +62,12 @@ class db:
 		mycursor.execute(query)
 		myresult = mycursor.fetchall()
 		return myresult
+
+	def getStateName(self,mycursor):
+		query = "SELECT `state_name` FROM `state_tbl`"
+		mycursor.execute(query)
+		myresult = mycursor.fetchall()
+		re = []
+		for x in myresult:
+			re.append(x[0])
+		return re

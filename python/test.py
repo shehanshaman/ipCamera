@@ -21,5 +21,19 @@
 # print ("program output:", out)
 
 from opencv_face_recognition.recognize import *
+re,sta = recognizer("photo_2019-05-18_19-55.jpg")
+print(re)
+print(sta)
 
-print(recognizer("hi"))
+# import cv2 as cv
+
+# # Read image from your local file system
+# original_image = cv.imread('./opencv_face_recognition/images/unread/photo_2019-05-18_19-55.jpg')
+
+# # Convert color image to grayscale for Viola-Jones
+# grayscale_image = cv.cvtColor(original_image, cv.COLOR_BGR2GRAY)
+
+# # Load the classifier and create a cascade object for face detection
+# face_cascade = cv.CascadeClassifier('./opencv_face_recognition/cascade/haarcascade_frontalface_default.xml')
+# detected_faces = face_cascade.detectMultiScale(grayscale_image)
+# print(detected_faces)
