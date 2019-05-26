@@ -14,7 +14,7 @@ import os
 
 def hasFaces(img_name):
 
-	original_image = cv2.imread('./opencv_face_recognition/images/unread/' + img_name)
+	original_image = cv2.imread('./hello/static/images/camera/unread/' + img_name)
 
 	# Convert color image to grayscale for Viola-Jones
 	grayscale_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2GRAY)
@@ -42,7 +42,7 @@ def recognizer(img_name):
 	args["embedding_model"] = path + "openface_nn4.small2.v1.t7"
 	args["recognizer"] = path + "output/recognizer.pickle"
 	args["le"] = path + "output/le.pickle"
-	args["image"] = path + "images/unread/" + img_name
+	args["image"] = "./hello/static/images/camera/unread/" + img_name
 	args["confidence"] = 0.5
 
 	# load our serialized face detector from disk
@@ -63,6 +63,10 @@ def recognizer(img_name):
 	# load the image, resize it to have a width of 600 pixels (while
 	# maintaining the aspect ratio), and then grab the image dimensions
 	image = cv2.imread(args["image"])
+
+	if image is None:
+		return [],3
+	
 	image = imutils.resize(image, width=600)
 	(h, w) = image.shape[:2]
 

@@ -41,6 +41,7 @@ class db:
 
 	def insertFace(self,img_id,rec_name,mycursor):
 		query = "INSERT INTO `recognize_image` (`rec_id`, `img_id`, `rec_name`, `name_update`, `update_time`) VALUES (NULL, " + img_id + ", '" + rec_name +"', NULL, CURRENT_TIMESTAMP)"
+		print(query)
 		mycursor.execute(query)
 		self.mydb.commit()
 

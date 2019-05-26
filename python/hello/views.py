@@ -26,7 +26,7 @@ app.secret_key = os.urandom(24)
 
 database=db.db("localhost","root","","ip_camera")
 mydb = database.mysqlConnect()
-mycursor = mydb.cursor()
+mycursor = mydb.cursor(buffered=True)
 
 # Create your views here.
 def index(request):
@@ -70,10 +70,11 @@ def logout(request):
 
 def test(request):
     # return HttpResponse('Hello from Python!')
-    return render(request, "test.html",{"greetings":database.getStateName(mycursor)})
+    return render(request, "test.html",{"greetings":os.path.realpath(__file__)})
 
 def read(request):
-    mypath = "./opencv_face_recognition/images"
+    # mypath = "./opencv_face_recognition/images"
+    mypath = "./hello/static/images/camera"
     onlyfiles = [f for f in listdir(mypath + "/unread") if isfile(join(mypath+"/unread", f))]
 
     for x in onlyfiles:
@@ -84,6 +85,6 @@ def read(request):
             for f in faces:
                 database.insertFace(str(img_id),f,mycursor)
 
-        # shutil.move(mypath + "/unread/" + x, mypath + "/read" )
+        shutil.move(mypath + "/unread/" + x, mypath + "/read" )
     return render(request, "test.html",{"greetings":"TEST"})
 
