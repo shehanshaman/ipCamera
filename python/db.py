@@ -59,7 +59,7 @@ class db:
 
 	def getImageData(self,email,mycursor):
 		appId = self.getAppId(email,mycursor)
-		query = "SELECT * FROM image_data LEFT JOIN recognize_image ON image_data.image_id = recognize_image.img_id WHERE image_data.app_id = '" + str(appId) + "' UNION SELECT * FROM image_data RIGHT JOIN recognize_image ON image_data.image_id = recognize_image.img_id WHERE image_data.app_id = '" + str(appId) + "'"
+		query = "SELECT * FROM ( SELECT * FROM image_data LEFT JOIN recognize_image ON image_data.image_id = recognize_image.img_id WHERE image_data.app_id = '" + str(appId) + "' UNION SELECT * FROM image_data RIGHT JOIN recognize_image ON image_data.image_id = recognize_image.img_id WHERE image_data.app_id = '" + str(appId) + "' ) sub  ORDER BY sub.image_capture DESC"
 		mycursor.execute(query)
 		myresult = mycursor.fetchall()
 		return myresult

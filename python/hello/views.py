@@ -88,3 +88,27 @@ def read(request):
         shutil.move(mypath + "/unread/" + x, mypath + "/read" )
     return render(request, "test.html",{"greetings":"TEST"})
 
+def update(request):
+    
+    if request.method == 'POST':
+        update_type = request.POST.get('update_type')
+        sql = ""
+        if update_type == "trigger_name":
+            query_id = request.POST.get('query_id')
+            new_name = request.POST.get('new_name')
+
+            if new_name:
+                sql = "UPDATE `recognize_image` SET `rec_name` = '" + new_name +"',`name_update` = CURRENT_TIMESTAMP  WHERE `recognize_image`.`rec_id` = " + query_id
+        
+        if update_type == "add_trigger_name":
+            img_id = request.POST.get('query_id')
+            name = request.POST.get('new_name')
+            database.insertFace(str(img_id),name,mycursor)
+
+        if sql:
+            mycursor.execute(sql)
+            mydb.commit()
+
+    return HttpResponseRedirect('/')
+        
+

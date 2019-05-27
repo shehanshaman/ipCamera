@@ -21,6 +21,6 @@ urlpatterns = [
     # path("db/", hello.views.db, name="db"),
     path("test/", hello.views.test, name="test"),
     path("read/", hello.views.read, name="read"),
-    # path("update/", hello.views.update, name="update"),
+    path("update/", hello.views.update, name="update"),
     path("admin/", admin.site.urls),
 ]
