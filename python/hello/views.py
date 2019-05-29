@@ -21,6 +21,8 @@ from os import listdir
 from os.path import isfile, join
 import shutil #cut and paste
 
+import json
+
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
@@ -70,7 +72,9 @@ def logout(request):
 
 def test(request):
     # return HttpResponse('Hello from Python!')
-    return render(request, "test.html",{"greetings":os.path.realpath(__file__)})
+    array = "(56, '001', 'photo_2019-05-18_19-55.jpg', datetime.datetime(2019, 5, 18, 19, 55), datetime.datetime(2019, 5, 27, 0, 7, 52), './hello/static/images/camera/read/', 0, 1, 14, 56, 'new', None, datetime.datetime(2019, 5, 27, 20, 32, 19))"
+    json_cities = json.dumps(array)
+    return render(request, "test.html",{"greetings":array})
 
 def read(request):
     # mypath = "./opencv_face_recognition/images"

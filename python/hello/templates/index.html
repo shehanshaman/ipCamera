@@ -209,6 +209,12 @@
             <div>
                 {{states}}
             </div>
+
+            <div class="chart">
+                <button id="change">Click to change the format</button>
+                <div id="chart_div"></div>
+            </div>
+
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
@@ -261,6 +267,8 @@
 
 </div>
 
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
 <!-- jQuery -->
 <script src="{% static 'js/jquery.min.js' %}"></script>
 
@@ -276,6 +284,8 @@
 <!-- DataTables JavaScript -->
 <script src="{% static 'js/dataTables/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'js/dataTables/dataTables.bootstrap.min.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'js/graphCal/images.js' %}"></script>
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
@@ -334,5 +344,33 @@
         }); 
 
 </script>
+    
+
+<script>
+        //gets table
+        var oTable = document.getElementById('dataTables-example');
+    
+        //gets rows of table
+        var rowLength = oTable.rows.length;
+        var all_days = [];
+        // console.log(test);
+    
+        //loops through rows    
+        for (i = 1; i < rowLength; i++){
+    
+          //gets cells of current row  
+            var oCells = oTable.rows.item(i).cells;
+            var day = oCells.item(2).innerHTML;
+            all_days.push(day.substring(0,day.length-11));
+        }
+        
+        googleChart(count(all_days));
+
+
+        // console.log(all_days);
+        // var date_count = count(all_days);
+</script>
+
+
 </body>
 </html>

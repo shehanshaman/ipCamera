@@ -7,3 +7,8 @@
 {{greetings}} World!
 </body>
 </html>
+
+<script>
+var cities = {{ greetings|safe }};
+console.log(cities.split(", "));
+</script>
