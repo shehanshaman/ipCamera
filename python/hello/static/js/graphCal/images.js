@@ -22,6 +22,12 @@ function count(array_elements) {
     return re;
 }
 
+function search_trigeer(clicked_id){
+    // $(this).closest("tr");
+    console.log("TEST " +  clicked_id);
+    $('#dataTables-example').DataTable().search(clicked_id).draw();
+}
+
 function googleChart(dataSet){
     google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
@@ -38,7 +44,7 @@ function googleChart(dataSet){
 
         var options = {
           title: 'Rate the Day on a Scale of 1 to 10',
-          width: 900,
+          width: 800,
           height: 500,
           hAxis: {
             format: 'MMM dd, yyyy',
@@ -47,24 +53,26 @@ function googleChart(dataSet){
           vAxis: {
             gridlines: {color: 'none'},
             minValue: 0
-          }
+          },
+          backgroundColor: '#f1f8e9',
+          legend: {position: 'none'}
         };
 
         var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 
         chart.draw(data, options);
 
-        var button = document.getElementById('change');
+        // var button = document.getElementById('change');
 
-        button.onclick = function () {
+        // button.onclick = function () {
 
-          // If the format option matches, change it to the new option,
-          // if not, reset it to the original format.
-          options.hAxis.format === 'M/d/yy' ?
-          options.hAxis.format = 'MMM dd, yyyy' :
-          options.hAxis.format = 'M/d/yy';
+        //   // If the format option matches, change it to the new option,
+        //   // if not, reset it to the original format.
+        //   options.hAxis.format === 'M/d/yy' ?
+        //   options.hAxis.format = 'MMM dd, yyyy' :
+        //   options.hAxis.format = 'M/d/yy';
 
-          chart.draw(data, options);
-        };
+        //   chart.draw(data, options);
+        // };
     }
 }

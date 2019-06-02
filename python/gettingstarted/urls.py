@@ -22,5 +22,6 @@ urlpatterns = [
     path("test/", hello.views.test, name="test"),
     path("read/", hello.views.read, name="read"),
     path("update/", hello.views.update, name="update"),
+    path("profile/", hello.views.profile, name="profile"),
     path("admin/", admin.site.urls),
 ]

@@ -657,3 +657,15 @@ table.dataTable thead .sorting:after {
     color: #fff; /* active text color */
     background-color: #a94442; /* active bg color */
 }
+
+.page-footer{
+    margin-top: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #222;
+    border-color: #080808;
+}
+
+.page-footer .footer-copyright, a{
+    color: #9d9d9d;
+}

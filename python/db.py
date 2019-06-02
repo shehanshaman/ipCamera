@@ -72,3 +72,9 @@ class db:
 		for x in myresult:
 			re.append(x[0])
 		return re
+
+	def getAppName(self,app_id,mycursor):
+		query = "SELECT * FROM `app_tbl` WHERE app_user_id = " + str(app_id) + ""
+		mycursor.execute(query)
+		myresult = mycursor.fetchone()
+		return myresult

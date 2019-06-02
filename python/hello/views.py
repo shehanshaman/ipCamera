@@ -30,6 +30,8 @@ database=db.db("localhost","root","","ip_camera")
 mydb = database.mysqlConnect()
 mycursor = mydb.cursor(buffered=True)
 
+APP_ID = "001"
+
 # Create your views here.
 def index(request):
 
@@ -41,7 +43,7 @@ def index(request):
         if len(myresult) == 1:
             row = myresult[0]
             request.session['email'] = row[1]
-            return render(request, "index.html",{"greetings":request,"user":row,"images":database.getImageData(row[1],mycursor),"states":database.getStateName(mycursor)})
+            return render(request, "index.html",{"greetings":request,"user":row,"images":database.getImageData(row[1],mycursor),"states":database.getStateName(mycursor), "app":database.getAppName(APP_ID,mycursor)})
         else:
             return render(request, "login.html",{"greetings":"hello"})
 
@@ -56,7 +58,7 @@ def index(request):
         if len(myresult) == 1:
             row = myresult[0]
             request.session['email'] = row[1]
-            return render(request, "index.html",{"greetings":request,"user":row,"images":database.getImageData(row[1],mycursor),"states":database.getStateName(mycursor)})
+            return render(request, "index.html",{"greetings":request,"user":row,"images":database.getImageData(row[1],mycursor),"states":database.getStateName(mycursor), "app":database.getAppName(APP_ID,mycursor)})
         else:
             return render(request, "login.html",{"greetings":"hello"})
         
@@ -114,5 +116,19 @@ def update(request):
             mydb.commit()
 
     return HttpResponseRedirect('/')
-        
+
+def profile(request):
+
+    if 'email' in request.session:
+        mycursor.execute("SELECT * FROM users WHERE email = '" + request.session['email']+"'")
+        myresult = mycursor.fetchall()
+
+        if len(myresult) == 1:
+            row = myresult[0]
+            request.session['email'] = row[1]
+            return render(request, "profile.html",{"greetings":request,"user":row})
+        else:
+            return render(request, "login.html",{"greetings":"hello"})
+    else:
+        return render(request, "login.html",{"greetings":"hello"})
 

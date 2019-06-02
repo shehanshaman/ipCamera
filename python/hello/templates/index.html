@@ -50,7 +50,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Startmin</a>
+            <a class="navbar-brand" href="#">{{app.2}}</a>
         </div>
 
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -67,11 +67,11 @@
 
         <!-- Top Navigation: Right Menu -->
         <ul class="nav navbar-right navbar-top-links">
-            <li class="dropdown navbar-inverse">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <!-- <li class="dropdown navbar-inverse"> -->
+                <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-bell fa-fw"></i> <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu dropdown-alerts">
+                </a> -->
+                <!-- <ul class="dropdown-menu dropdown-alerts">
                     <li>
                         <a href="#">
                             <div>
@@ -87,14 +87,14 @@
                             <i class="fa fa-angle-right"></i>
                         </a>
                     </li>
-                </ul>
-            </li>
+                </ul> -->
+            <!-- </li> -->
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-user fa-fw"></i> {{user.3}} <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
-                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    <li><a href="{% url 'profile' %}"><i class="fa fa-user fa-fw"></i> User Profile</a>
                     </li>
                     <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                     </li>
@@ -120,24 +120,11 @@
                                 </span>
                         </div>
                     </li>
-                    <li>
-                        <a href="#" class="active"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                     <li>
+                        <a href="{% url 'index' %}" class=""><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">Second Level Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Third Level <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+                        <a href="{% url 'profile' %}" class="active"><i class="fa fa-user fa-fw"></i> Profile</a>
                     </li>
                 </ul>
 
@@ -151,7 +138,7 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Page Title</h1>
+                    <h1 class="page-header">Dashboard</h1>
                 </div>
             </div>
 
@@ -196,6 +183,7 @@
             </div>
             
             <div>
+                {{app}}
                 {{user}}
             </div>
 
@@ -209,14 +197,132 @@
             <div>
                 {{states}}
             </div>
+           
+                
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-comments fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge" id="#state_trigger">0</div>
+                                    <div>Triggers!</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#" onclick="search_trigeer(this.id)" id="Triggers">
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
 
-            <div class="chart">
-                <button id="change">Click to change the format</button>
-                <div id="chart_div"></div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-tasks fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge" id="#state_detect">0</div>
+                                    <div>Detected!</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#allActivity" onclick="search_trigeer(this.id)" id="DETECTED">
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-exclamation-circle fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge" id="state_motion">0</div>
+                                    <div>Motion!</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#allActivity" onclick="search_trigeer(this.id)" id="MOTION">
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-red">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-question fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge" id="#state_unknown">0</div>
+                                    <div>Unknown!</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#allActivity" onclick="search_trigeer(this.id)" id="UNKNOWN">
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
             </div>
 
             <div class="row">
-                <div class="col-lg-12">
+                <div class="chart col-lg-8">
+                    <!-- <button id="change">Click to change the format</button> -->
+                    <div id="chart_div"></div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bell fa-fw"></i> Notifications Panel
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="list-group" id="#not_panel">
+                                
+                            </div>
+                            <!-- /.list-group -->
+                            <a href="#allActivity" class="btn btn-default btn-block">View All Alerts</a>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <br>
+
+            <div class="row">
+                <div class="col-lg-12" id="allActivity">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             DataTables Advanced Tables
@@ -240,8 +346,8 @@
                                         {% for image in images %}
                                             <tr>
                                                 <td>{{ forloop.counter }}</td>
-                                                <td>{{ states | return_item:image.7 }}</td>
-                                                <td>{{image.3}}</td>
+                                                <td class="img-state">{{ states | return_item:image.7 }}</td>
+                                                <td>{{image.3 | date:'Y-m-d H:i:s'}}</td>
                                                 {% if image.10 == None %}
                                                     <td></td>
                                                 {% else %}
@@ -266,6 +372,18 @@
     </div>
 
 </div>
+
+<!-- Footer -->
+<footer class="page-footer font-small blue">
+
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">© 2018 Copyright:
+          <a href="https://mdbootstrap.com/education/bootstrap/"> MDBootstrap.com</a>
+        </div>
+        <!-- Copyright -->
+      
+      </footer>
+      <!-- Footer -->
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -353,21 +471,73 @@
         //gets rows of table
         var rowLength = oTable.rows.length;
         var all_days = [];
-        // console.log(test);
-    
+
+        var state_count = [0,0,0,0];
+
+        //before month
+        var date = new Date();
+        var bfm = new Date(date.getTime());
+        bfm.setDate(date.getDate() - 30);
+      
+        //yesterday
+        var yesterday = new Date(date.getTime());
+        yesterday.setDate(date.getDate() - 1);
+
+        var tmp = 0;
+        var notView = "";
         //loops through rows    
         for (i = 1; i < rowLength; i++){
     
           //gets cells of current row  
             var oCells = oTable.rows.item(i).cells;
             var day = oCells.item(2).innerHTML;
+            var state = oCells.item(1).innerHTML;
+            var last_time;
+
+            if(new Date(day) - bfm > 0){
+                console.log(state);
+                switch(state){
+                    case "MOTION": 
+                        state_count[0] += 1;
+                        break;
+                    case "UNKNOWN": 
+                        state_count[1] += 1;
+                        break;
+                    case "DETECTED": 
+                        state_count[2] += 1;
+                        break;
+                }
+                state_count[3] += 1;
+            }
+
+            if(new Date(day) - yesterday > 0 && tmp < 10){
+                notView += '<a href="#" class="list-group-item"><i class="fa fa-comment fa-fw"></i> ';
+                notView += oCells.item(3).innerHTML;
+                notView += '<span class="pull-right text-muted small"><em>';
+                late_time = new Date()- new Date(day);
+                console.log(late_time);
+                if(late_time > 1000 * 60 * 60){
+                    notView += Math.round(late_time/(1000 * 3600)) + " hours ago";
+                }else{
+                    notView += Math.round(late_time/(1000 * 3600 * 60)) + " minutes ago";
+                }
+                 
+                notView += '</em></span></a>';
+                tmp++;
+            }
+                
             all_days.push(day.substring(0,day.length-11));
         }
         
         googleChart(count(all_days));
 
-
-        // console.log(all_days);
+        if(state_count[3]) document.getElementById("#state_trigger").innerHTML = state_count[3];
+        if(state_count[2]) document.getElementById("#state_detect").innerHTML = state_count[2];
+        if(state_count[1]) document.getElementById("#state_unknown").innerHTML = state_count[1];
+        if(state_count[0]) document.getElementById("#state_motion").innerHTML = state_count[0];
+        
+        console.log(new Date().getDate());//not_panel
+        if(notView) document.getElementById("#not_panel").innerHTML = notView;
         // var date_count = count(all_days);
 </script>
 
