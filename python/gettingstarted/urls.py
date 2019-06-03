@@ -23,5 +23,6 @@ urlpatterns = [
     path("read/", hello.views.read, name="read"),
     path("update/", hello.views.update, name="update"),
     path("profile/", hello.views.profile, name="profile"),
+    path("camera/", hello.views.camera, name="camera"),
     path("admin/", admin.site.urls),
 ]

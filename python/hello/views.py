@@ -27,6 +27,7 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 database=db.db("localhost","root","","ip_camera")
+# database=db.db("remotemysql.com","kolsGPw7xm","q4mv4YxtO9","kolsGPw7xm")
 mydb = database.mysqlConnect()
 mycursor = mydb.cursor(buffered=True)
 
@@ -132,3 +133,19 @@ def profile(request):
     else:
         return render(request, "login.html",{"greetings":"hello"})
 
+def camera(request):
+     if 'email' in request.session:
+        mycursor.execute("SELECT * FROM users WHERE email = '" + request.session['email']+"'")
+        myresult = mycursor.fetchall()
+
+        if len(myresult) == 1:
+            row = myresult[0]
+            request.session['email'] = row[1]
+
+
+
+            return render(request, "camera.html",{"greetings":request,"user":row, "app":database.getAppName(APP_ID,mycursor), "camera": database.getCameraBattery("001",mycursor)})
+        else:
+            return render(request, "login.html",{"greetings":"hello"})
+    
+    # return render(request, "camera.html",{"greetings":"hello"})
