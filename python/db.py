@@ -80,7 +80,7 @@ class db:
 		return myresult
 
 	def getCameraBattery(self,app_id,mycursor):
-		query = "SELECT * FROM `phone_battery_tbl` WHERE app_id = " + str(app_id) + " ORDER BY camera_id"
+		query = "SELECT * FROM `phone_battery_tbl` WHERE app_id = " + str(app_id) + " ORDER BY `phone_battery_tbl`.`data_create` DESC "
 		mycursor.execute(query)
 		myresult = mycursor.fetchall()
 		return myresult

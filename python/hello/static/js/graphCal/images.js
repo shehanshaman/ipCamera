@@ -39,7 +39,7 @@ function googleChart(dataSet){
         data.addColumn('number', 'Rating');
 
         data.addRows(dataSet);
-        data.addRows([[new Date(2015, 0, 1), 5]])
+        // data.addRows([[new Date(2015, 0, 1), 5]])
 
 
         var options = {

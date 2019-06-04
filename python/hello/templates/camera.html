@@ -36,12 +36,8 @@
     <!-- Custom Fonts -->
     <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <link href="{% static 'css/battery-level.css' %}" rel="stylesheet" type="text/css">
+
 </head>
 <body>
 
@@ -137,10 +133,25 @@
         {{ camera }}
 
         <div class="row">
-                <div id="circle">
+            <br>
+            <div id="battery-content"></div>
+            <!-- <div class="box">
+                
+                <div class="progress" id="progress">
+                    <div class="inner">
+                    heart
                     </div>
+                </div>
+                <div class="name">Name</div>
+            </div> -->
         </div>
         
+        <div class="row">
+                <div class="chart col-lg-8">
+                        <!-- <button id="change">Click to change the format</button> -->
+                        <div id="chart_div"></div>
+                    </div>
+        </div>
     </div>
 
 </div>
@@ -157,25 +168,75 @@
 <script src="{% static 'js/metisMenu.min.js' %}"></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="{% static 'js/startmin.js' %}"></script>
+<!-- <script src="{% static 'js/startmin.js' %}"></script> -->
 
-<!-- DataTables JavaScript -->
-<script src="{% static 'js/dataTables/jquery.dataTables.min.js' %}"></script>
-<script src="{% static 'js/dataTables/dataTables.bootstrap.min.js' %}"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->
+<script src="{% static 'js/progressbar.js' %}"></script>
 
 <script type="text/javascript" src="{% static 'js/graphCal/images.js' %}"></script>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
 
-<link href="{% static 'css/circle.css' %}" rel="stylesheet">
-<script src="{% static 'js/progress-circle.js' %}"></script>
+var content = '';
+var dist_camera_id = [];
 
+{% for x in camera %}
+    if(dist_camera_id.length == 0) {
+        content += '<div class="box col-lg-3"><div class="progress" id="progress' + {{x.1}} + '"><div class="inner"> ' + {{x.2}} +' </div></div><div id="name" class="name">' + {{ x.1 }} + '</div></div>';
+        dist_camera_id.push({{ x.1 }});
+    }
+    if(!dist_camera_id.includes({{x.1}})){
+        content += '<div class="box col-lg-3"><div class="progress" id="progress' + {{x.1}} + '"><div class="inner"> ' + {{x.2}} +' </div></div><div id="name" class="name">' + {{ x.1 }} + '</div></div>';
+        dist_camera_id.push({{ x.1 }});
+    }
+{% endfor %}
+document.getElementById('battery-content').innerHTML=content; 
+console.log(dist_camera_id);   
+
+  function setBatteryLevel(level,id,col) {
+  var progressBar = 
+    new ProgressBar.Circle(id, {
+      color: col,
+      strokeWidth: 10,
+      duration: 2000, // milliseconds
+      easing: 'easeInOut'
+    });
+
+  progressBar.animate(level); // percent
+};
+
+
+
+</script>
 
 <script>
-$('#circle').progressCircle({
-nPercent        : 50,
-showPercentText : true,
-circleSize      : 100,
-thickness       : 3
+    var dist_camera_id = [];
+    {% for x in camera %}
+    if(dist_camera_id.length == 0) {
+        dist_camera_id.push({{ x.1 }});
+        setBatteryLevel('0.'+{{x.2}},'#progress'+{{x.1}},'red');
+    }
+    if(!dist_camera_id.includes({{x.1}})){
+        dist_camera_id.push({{ x.1 }});
+        setBatteryLevel('0.'+{{x.2}},'#progress'+{{x.1}},'red');
+    }
+{% endfor %}
+
+$(".name").click(function(e){
+    console.log("TEST");
+    console.log($(e.target).text());
+    var id = $(e.target).text();
+    var re = [];
+
+{% for x in camera %}
+    if(id == {{x.1}}) {
+        // console.log('{{x.3 | date:"c"}}');
+        re.push([new Date('{{x.3 | date:"c"}}'), {{x.2}}]);
+    }
+    
+{% endfor %}
+console.log(re);
+googleChart(re);
+
 });
-    </script>
+</script>
