@@ -116,7 +116,21 @@ def update(request):
             mycursor.execute(sql)
             mydb.commit()
 
-    return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/')
+
+    elif request.method == 'GET':
+
+        if request.GET.get('table') == 'camera_battery':
+            if (request.GET.get('id') and request.GET.get('level') and request.GET.get('ip') and request.GET.get('time')):
+                camera_id = request.GET.get('id')
+                battery_level = request.GET.get('level')
+                camera_ip = request.GET.get('ip')
+                time = request.GET.get('time')
+
+                database.insertBatteryLevel("001",camera_id,battery_level,camera_ip,mycursor)
+
+                return render(request, "test.html",{"greetings":battery_level})
+
 
 def profile(request):
 
@@ -149,3 +163,4 @@ def camera(request):
             return render(request, "login.html",{"greetings":"hello"})
     
     # return render(request, "camera.html",{"greetings":"hello"})
+

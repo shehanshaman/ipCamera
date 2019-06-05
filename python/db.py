@@ -41,7 +41,7 @@ class db:
 
 	def insertFace(self,img_id,rec_name,mycursor):
 		query = "INSERT INTO `recognize_image` (`rec_id`, `img_id`, `rec_name`, `name_update`, `update_time`) VALUES (NULL, " + img_id + ", '" + rec_name +"', NULL, CURRENT_TIMESTAMP)"
-		print(query)
+		# print(query)
 		mycursor.execute(query)
 		self.mydb.commit()
 
@@ -84,3 +84,9 @@ class db:
 		mycursor.execute(query)
 		myresult = mycursor.fetchall()
 		return myresult
+
+	def insertBatteryLevel(self,app_id,camera_id,level,ip_address,mycursor):
+		query = "INSERT INTO `phone_battery_tbl` (`id`, `camera_id`, `battery_level`, `data_create`, `app_id`, `ip_address`) VALUES (NULL, '" + camera_id + "', '"+ level +"', CURRENT_TIMESTAMP, '"+ app_id + "', '" + ip_address + "')"
+		# print(query)
+		mycursor.execute(query)
+		self.mydb.commit()

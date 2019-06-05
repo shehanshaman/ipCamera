@@ -120,7 +120,10 @@
                         <a href="{% url 'index' %}" class=""><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="{% url 'profile' %}" class="active"><i class="fa fa-user fa-fw"></i> Profile</a>
+                        <a href="{% url 'profile' %}" class=""><i class="fa fa-user fa-fw"></i> Profile</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'camera' %}" class="active"><i class="fa fa-user fa-fw"></i> Camera</a>
                     </li>
                 </ul>
 
@@ -130,27 +133,19 @@
 
     <!-- Page Content -->
     <div id="page-wrapper">
-        {{ camera }}
-
+        <div class="clear"><br></div>
         <div class="row">
             <br>
-            <div id="battery-content"></div>
-            <!-- <div class="box">
-                
-                <div class="progress" id="progress">
-                    <div class="inner">
-                    heart
-                    </div>
-                </div>
-                <div class="name">Name</div>
-            </div> -->
+            <div id="battery-content" class="cameraBattery"></div>
+    
         </div>
-        
+
+        <br>
         <div class="row">
-                <div class="chart col-lg-8">
-                        <!-- <button id="change">Click to change the format</button> -->
-                        <div id="chart_div"></div>
-                    </div>
+                <div class="chart col-lg-8 center">
+                    <!-- <button id="change">Click to change the format</button> -->
+                    <div id="chart_div"></div>
+                </div>
         </div>
     </div>
 
@@ -182,16 +177,16 @@ var dist_camera_id = [];
 
 {% for x in camera %}
     if(dist_camera_id.length == 0) {
-        content += '<div class="box col-lg-3"><div class="progress" id="progress' + {{x.1}} + '"><div class="inner"> ' + {{x.2}} +' </div></div><div id="name" class="name">' + {{ x.1 }} + '</div></div>';
+        content += '<div class="card" id="{{x.1}}"><div class="progress" id="progress' + {{x.1}} + '"><div class="inner">' + {{x.2}} +'%</div></div><h1></h1><p class="title">ID: ' + {{ x.1 }} + '</p><p> {{x.3 | date:"D d M Y" }}</p><p><button id="ipCamHost">{{ x.5 }}:8000</button></p></div>';
         dist_camera_id.push({{ x.1 }});
     }
     if(!dist_camera_id.includes({{x.1}})){
-        content += '<div class="box col-lg-3"><div class="progress" id="progress' + {{x.1}} + '"><div class="inner"> ' + {{x.2}} +' </div></div><div id="name" class="name">' + {{ x.1 }} + '</div></div>';
+        content += '<div class="card" id="{{x.1}}"><div class="progress" id="progress' + {{x.1}} + '"><div class="inner">' + {{x.2}} +'%</div></div><h1></h1><p class="title">ID: ' + {{ x.1 }} + '</p><p> {{x.3 | date:"D d M Y" }}</p><p><button>{{ x.5 }}:8000</button></p></div>';
         dist_camera_id.push({{ x.1 }});
     }
 {% endfor %}
 document.getElementById('battery-content').innerHTML=content; 
-console.log(dist_camera_id);   
+// console.log(dist_camera_id);   
 
   function setBatteryLevel(level,id,col) {
   var progressBar = 
@@ -210,33 +205,42 @@ console.log(dist_camera_id);
 </script>
 
 <script>
+    // setBatteryLevel('0.45','#progress','red');
     var dist_camera_id = [];
     {% for x in camera %}
-    if(dist_camera_id.length == 0) {
-        dist_camera_id.push({{ x.1 }});
-        setBatteryLevel('0.'+{{x.2}},'#progress'+{{x.1}},'red');
-    }
-    if(!dist_camera_id.includes({{x.1}})){
-        dist_camera_id.push({{ x.1 }});
-        setBatteryLevel('0.'+{{x.2}},'#progress'+{{x.1}},'red');
-    }
-{% endfor %}
+        if(dist_camera_id.length == 0) {
+            dist_camera_id.push({{ x.1 }});
+            setBatteryLevel('0.'+{{x.2}},'#progress'+{{x.1}},'red');
+        }
+        if(!dist_camera_id.includes({{x.1}})){
+            dist_camera_id.push({{ x.1 }});
+            setBatteryLevel('0.'+{{x.2}},'#progress'+{{x.1}},'red');
+        }
+    {% endfor %}
 
-$(".name").click(function(e){
-    console.log("TEST");
-    console.log($(e.target).text());
-    var id = $(e.target).text();
-    var re = [];
+    $(".card").click(function(e){
+        var id = $(this).attr('id');
+        var re = [];
 
-{% for x in camera %}
-    if(id == {{x.1}}) {
-        // console.log('{{x.3 | date:"c"}}');
-        re.push([new Date('{{x.3 | date:"c"}}'), {{x.2}}]);
-    }
+    {% for x in camera %}
+        if(id == {{x.1}}) {
+            // console.log('{{x.3 | date:"c"}}');
+            re.push([new Date('{{x.3 | date:"c"}}'), {{x.2}}]);
+        }
+        
+    {% endfor %}
+    // console.log(re);
+    googleChart(re);
+
+    });
     
-{% endfor %}
-console.log(re);
-googleChart(re);
+</script>
 
-});
+<script>
+ $("#ipCamHost").click(function(e){
+    var url = $(this).text();
+    // console.log(id);
+    win = window.open("http://" + url, '_blank');
+    win.focus();
+ });
 </script>
