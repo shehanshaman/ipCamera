@@ -32,8 +32,9 @@
     margin: auto;
     text-align: center;
     font-family: arial;
-    margin-right: 5px;
-    margin-left: 5px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 5px;
   }
   
   .card .title {

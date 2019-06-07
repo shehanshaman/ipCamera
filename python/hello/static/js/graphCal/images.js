@@ -28,7 +28,12 @@ function search_trigeer(clicked_id){
     $('#dataTables-example').DataTable().search(clicked_id).draw();
 }
 
-function googleChart(dataSet){
+function googleChart(dataSet,limit=1){
+    if(dataSet.length == 0) {
+        console.log("No Data");
+        return;
+    }
+    // console.log(dataSet);
     google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
 
@@ -41,14 +46,33 @@ function googleChart(dataSet){
         data.addRows(dataSet);
         // data.addRows([[new Date(2015, 0, 1), 5]])
 
+        var date = new Date();
+        var bfm = new Date(date.getTime());
+        bfm.setDate(date.getDate() - limit);
+      
 
         var options = {
-          title: 'Rate the Day on a Scale of 1 to 10',
-          width: 800,
-          height: 500,
-          hAxis: {
-            format: 'MMM dd, yyyy',
-            gridlines: {count: 15}
+          title: '',
+        //   width: 800,
+        //   height: 500,
+        hAxis: {
+            viewWindow: {
+              max: new Date(),
+              min: bfm
+            },
+            gridlines: {
+              count: -1,
+              units: {
+                days: {format: ['MMM dd']},
+                hours: {format: ['HH:mm', 'ha']},
+              }
+            },
+            minorGridlines: {
+              units: {
+                hours: {format: ['hh:mm:ss a', 'ha']},
+                minutes: {format: ['HH:mm a Z', ':mm']}
+              }
+            }
           },
           vAxis: {
             gridlines: {color: 'none'},
@@ -62,17 +86,17 @@ function googleChart(dataSet){
 
         chart.draw(data, options);
 
-        // var button = document.getElementById('change');
+        var button = document.getElementById('chart_div');
 
-        // button.onclick = function () {
+        button.onclick = function () {
 
-        //   // If the format option matches, change it to the new option,
-        //   // if not, reset it to the original format.
-        //   options.hAxis.format === 'M/d/yy' ?
-        //   options.hAxis.format = 'MMM dd, yyyy' :
-        //   options.hAxis.format = 'M/d/yy';
+          // If the format option matches, change it to the new option,
+          // if not, reset it to the original format.
+          options.hAxis.format === 'M/d/yy' ?
+          options.hAxis.format = 'MMM dd, yyyy' :
+          options.hAxis.format = 'M/d/yy';
 
-        //   chart.draw(data, options);
-        // };
+          chart.draw(data, options);
+        };
     }
 }

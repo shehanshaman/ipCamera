@@ -124,10 +124,10 @@
                         <a href="{% url 'index' %}" class=""><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="{% url 'profile' %}" class="active"><i class="fa fa-user fa-fw"></i> Profile</a>
+                        <a href="{% url 'profile' %}" class=""><i class="fa fa-user fa-fw"></i> Profile</a>
                     </li>
                     <li>
-                        <a href="{% url 'camera' %}" class="active"><i class="fa fa-user fa-fw"></i> Camera</a>
+                        <a href="{% url 'camera' %}" class=""><i class="fa fa-user fa-fw"></i> Camera</a>
                     </li>
                 </ul>
 
@@ -299,12 +299,12 @@
             </div>
 
             <div class="row">
-                <div class="chart col-lg-8">
+                <div class="chart col-lg-8 col-sm-12" style="width: auto">
                     <!-- <button id="change">Click to change the format</button> -->
-                    <div id="chart_div"></div>
+                    <div id="chart_div" class="chart"></div>
                 </div>
 
-                <div class="col-lg-4">
+                <div class="col-lg-4 col-sm-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-bell fa-fw"></i> Notifications Panel
@@ -379,14 +379,14 @@
 <!-- Footer -->
 <footer class="page-footer font-small blue">
 
-        <!-- Copyright -->
-        <div class="footer-copyright text-center py-3">© 2018 Copyright:
-          <a href="https://mdbootstrap.com/education/bootstrap/"> MDBootstrap.com</a>
-        </div>
-        <!-- Copyright -->
-      
-      </footer>
-      <!-- Footer -->
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2018 Copyright:
+        <a href="https://mdbootstrap.com/education/bootstrap/"> MDBootstrap.com</a>
+    </div>
+    <!-- Copyright -->
+    
+</footer>
+<!-- Footer -->
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -532,7 +532,7 @@
             all_days.push(day.substring(0,day.length-11));
         }
         
-        googleChart(count(all_days));
+        googleChart(count(all_days),30);
 
         if(state_count[3]) document.getElementById("#state_trigger").innerHTML = state_count[3];
         if(state_count[2]) document.getElementById("#state_detect").innerHTML = state_count[2];

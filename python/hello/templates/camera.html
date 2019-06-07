@@ -46,7 +46,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Startmin</a>
+            <a class="navbar-brand" href="#">{{ app.2 }}</a>
         </div>
 
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -142,14 +142,25 @@
 
         <br>
         <div class="row">
-                <div class="chart col-lg-8 center">
+                <div class="chart col-lg-12 col-sm-12 center">
                     <!-- <button id="change">Click to change the format</button> -->
-                    <div id="chart_div"></div>
+                    <div id="chart_div" class="chart"></div>
                 </div>
         </div>
     </div>
 
 </div>
+<!-- Footer -->
+<footer class="page-footer font-small blue">
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2018 Copyright:
+        <a href="https://mdbootstrap.com/education/bootstrap/"> MDBootstrap.com</a>
+    </div>
+    <!-- Copyright -->
+    
+</footer>
+<!-- Footer -->
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -244,3 +255,6 @@ document.getElementById('battery-content').innerHTML=content;
     win.focus();
  });
 </script>
+
+</body>
+</html>

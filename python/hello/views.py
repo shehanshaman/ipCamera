@@ -129,7 +129,10 @@ def update(request):
 
                 database.insertBatteryLevel("001",camera_id,battery_level,camera_ip,mycursor)
 
-                return render(request, "test.html",{"greetings":battery_level})
+                # return render(request, "test.html",{"greetings":battery_level})
+                return HttpResponse('200') 
+        
+        return HttpResponse('200') 
 
 
 def profile(request):
@@ -141,7 +144,7 @@ def profile(request):
         if len(myresult) == 1:
             row = myresult[0]
             request.session['email'] = row[1]
-            return render(request, "profile.html",{"greetings":request,"user":row})
+            return render(request, "profile.html",{"greetings":request,"user":row,"app":database.getAppName(APP_ID,mycursor)})
         else:
             return render(request, "login.html",{"greetings":"hello"})
     else:
@@ -158,7 +161,7 @@ def camera(request):
 
 
 
-            return render(request, "camera.html",{"greetings":request,"user":row, "app":database.getAppName(APP_ID,mycursor), "camera": database.getCameraBattery("001",mycursor)})
+            return render(request, "camera.html",{"greetings":request,"user":row, "app":database.getAppName(APP_ID,mycursor), "camera": database.getCameraBattery("001",mycursor),"app":database.getAppName(APP_ID,mycursor)})
         else:
             return render(request, "login.html",{"greetings":"hello"})
     
