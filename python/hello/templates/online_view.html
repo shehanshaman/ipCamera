@@ -1,0 +1,47 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+img {
+  width: auto;
+  height: 100%;
+}
+</style>
+</head>
+<body>
+        
+<img src="img_chania.jpg" width="" height="345" id="img_id">
+<p>Resize the browser window to see how the image will scale.</p>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+//Our custom function.
+function send(){
+  console.log("TEST");
+    $.ajax({
+        type: "get",
+        url: "{% url 'getData' %}?table=image&g=new",
+        success:function(data)
+        {
+            //console.log the response
+            console.log(data);
+            var obj = JSON.parse(data);
+            console.log(obj.img_name);
+            document.getElementById("img_id").src ="{% static 'images/camera/read/' %}" + obj.img_name;
+
+            //Send another request in 10 seconds.
+            setTimeout(function(){
+                send();
+            }, 2000);
+        }
+    });
+}
+//Call our function
+send();
+</script>
+
+</body>
+</html>

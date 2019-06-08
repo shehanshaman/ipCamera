@@ -167,3 +167,32 @@ def camera(request):
     
     # return render(request, "camera.html",{"greetings":"hello"})
 
+def getData(request):
+
+    if request.method == 'GET':
+
+        if request.GET.get('table') == 'camera_battery':
+            if request.GET.get('g') == 'battery_level':
+                if request.GET.get('id') :
+                    # http://192.168.1.6:8000/getData/?table=camera_battery&g=battery_level&id=10
+                    id = request.GET.get('id')
+                    query = "SELECT battery_level FROM `phone_battery_tbl` WHERE `camera_id` = " + id +" ORDER BY `data_create` DESC LIMIT 1"
+                    mycursor.execute(query)
+                    myresult = mycursor.fetchone()
+                    if myresult : return HttpResponse(myresult[0]) 
+        
+        if request.GET.get('table') == 'image':
+            
+            if request.GET.get('g') == 'new':
+                # 
+                app_id = "001"
+                query = "SELECT * FROM `image_data`, `recognize_image` WHERE `image_data`.`image_id` = `recognize_image`.`img_id` AND `image_data`.`app_id` = '" + app_id + "' ORDER BY `image_data`.`image_capture` DESC LIMIT 1"
+                mycursor.execute(query)
+                myresult = mycursor.fetchone()
+                if myresult : return HttpResponse('{"img_name": "' + myresult[2] + '" , "img_path": "' + myresult[5] + '"}') 
+    
+    return HttpResponse("") 
+    
+
+def onlineView(request):
+        return render(request, "online_view.html")
