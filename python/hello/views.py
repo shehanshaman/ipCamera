@@ -186,10 +186,21 @@ def getData(request):
             if request.GET.get('g') == 'new':
                 # 
                 app_id = "001"
-                query = "SELECT * FROM `image_data`, `recognize_image` WHERE `image_data`.`image_id` = `recognize_image`.`img_id` AND `image_data`.`app_id` = '" + app_id + "' ORDER BY `image_data`.`image_capture` DESC LIMIT 1"
+                query = "SELECT * FROM `image_data` WHERE `image_data`.`app_id` = '" + app_id + "' AND `image_data`.`img_state` IN (1,2) ORDER BY `image_capture` DESC LIMIT 1"
+                # query = "SELECT * FROM `image_data`, `recognize_image` WHERE `image_data`.`image_id` = `recognize_image`.`img_id` AND `image_data`.`app_id` = '" + app_id + "' ORDER BY `image_data`.`image_capture` DESC LIMIT 1"
                 mycursor.execute(query)
                 myresult = mycursor.fetchone()
-                if myresult : return HttpResponse('{"img_name": "' + myresult[2] + '" , "img_path": "' + myresult[5] + '"}') 
+
+                if myresult[7] == 2:
+                    query = "SELECT * FROM `image_data`, `recognize_image` WHERE `image_data`.`image_id` = `recognize_image`.`img_id` AND `image_data`.`app_id` = '" + app_id + "' ORDER BY `image_data`.`image_capture` DESC LIMIT 1"
+                    mycursor.execute(query)
+                    myresult = mycursor.fetchone()
+                    # print(myresult[3])
+                    # print(myresult[3].strftime("%Y-%m-%d %H:%M:%S"))
+                    if myresult : return HttpResponse('{"img_name": "' + myresult[2] + '" , "img_path": "' + myresult[5] + '" , "name": "' + myresult[10] + '" , "time": "' + myresult[3].strftime("%Y-%m-%d %H:%M:%S") + '"}') 
+                
+                else :
+                    if myresult : return HttpResponse('{"img_name": "' + myresult[2] + '" , "img_path": "' + myresult[5] + '" , "name": "" , "time": "' + myresult[3].strftime("%Y-%m-%d %H:%M:%S") + '"}')
     
     return HttpResponse("") 
     

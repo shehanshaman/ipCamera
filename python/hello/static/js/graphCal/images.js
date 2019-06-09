@@ -33,7 +33,7 @@ function googleChart(dataSet,limit=1){
         console.log("No Data");
         return;
     }
-    // console.log(dataSet);
+    console.log(dataSet);
     google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
 

@@ -96,7 +96,7 @@
                 <ul class="dropdown-menu dropdown-user">
                     <li><a href="{% url 'profile' %}"><i class="fa fa-user fa-fw"></i> User Profile</a>
                     </li>
-                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                    <li><a href="{% url 'onlineView' %}"> <i class="fa fa-television fa-fw"></i> View</a>
                     </li>
                     <li class="divider"></li>
                     <li><a href="./logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -127,7 +127,7 @@
                         <a href="{% url 'profile' %}" class=""><i class="fa fa-user fa-fw"></i> Profile</a>
                     </li>
                     <li>
-                        <a href="{% url 'camera' %}" class=""><i class="fa fa-user fa-fw"></i> Camera</a>
+                        <a href="{% url 'camera' %}" class=""><i class="fa fa-camera fa-fw"></i> Camera</a>
                     </li>
                 </ul>
 
@@ -185,7 +185,7 @@
                 </div>
             </div>
             
-            <div>
+            <!-- <div>
                 {{app}}
                 {{user}}
             </div>
@@ -199,7 +199,7 @@
             </div>
             <div>
                 {{states}}
-            </div>
+            </div> -->
            
                 
             <!-- /.row -->
@@ -414,6 +414,7 @@
         $('#dataTables-example').DataTable({
                 responsive: true
         });
+        $('#dataTables-example').addClass('bs-select');
     });
 </script>
 
@@ -448,6 +449,7 @@
         }else{
             $('.update-name').attr('value',"add_trigger_name");
             $('.query-id').attr('value',parseInt(text[0], 10));
+            $('.modal-user-name').attr('value','');
         }
   
         $('.showPic').attr('src', src);
@@ -522,7 +524,7 @@
                 if(late_time > 1000 * 60 * 60){
                     notView += Math.round(late_time/(1000 * 3600)) + " hours ago";
                 }else{
-                    notView += Math.round(late_time/(1000 * 3600 * 60)) + " minutes ago";
+                    notView += Math.round(late_time/(1000 * 60)) + " minutes ago";
                 }
                  
                 notView += '</em></span></a>';
