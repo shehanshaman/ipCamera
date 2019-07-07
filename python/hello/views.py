@@ -119,7 +119,7 @@ def update(request):
         return HttpResponseRedirect('/')
 
     elif request.method == 'GET':
-
+        # http://192.168.1.6:8000/update/?table=camera_battery&id=1&level=20&ip=100&time=0
         if request.GET.get('table') == 'camera_battery':
             if (request.GET.get('id') and request.GET.get('level') and request.GET.get('ip') and request.GET.get('time')):
                 camera_id = request.GET.get('id')

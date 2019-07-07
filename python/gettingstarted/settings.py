@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-import django_heroku
+# import django_heroku
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -127,4 +127,12 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
+
+# sudo apt-get install libmariadbclient-dev
+# pip install mysql-python
+# sudo apt-get install mysql-workbench
+
+# sudo /etc/init.d/mysql start
+
+# https://www.youtube.com/watch?v=SJm91cvE_ks
